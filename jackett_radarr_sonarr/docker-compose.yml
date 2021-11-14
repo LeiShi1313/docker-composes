@@ -12,7 +12,7 @@ services:
       - AUTO_UPDATE=true
     volumes:
       - ./jackett_config:/config
-      - ./jackett_downloads:/downloads
+      - /mnt:/mnt
     ports:
       - 9117:9117
   radarr:
@@ -25,8 +25,7 @@ services:
       - TZ=Europe/London
     volumes:
       - ./radarr_config:/config
-      - ./radarr_movies:/movies #optional
-      - ./radarr_downloads:/downloads #optional
+      - /mnt:/mnt
     ports:
       - 7878:7878
   sonarr:
@@ -39,7 +38,6 @@ services:
       - TZ=Europe/London
     volumes:
       - ./sonarr_config:/config
-      - ./sonarr_tv:/tv #optional
-      - ./sonarr_downloads:/downloads #optional
+      - /mnt:/mnt
     ports:
       - 8989:8989
