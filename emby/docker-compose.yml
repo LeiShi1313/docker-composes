@@ -1,0 +1,18 @@
+---
+version: "2.3"
+services:
+  emby:
+    image: emby/embyserver
+    container_name: embyserver
+    network_mode: host
+    restart: unless-stopped
+    environment:
+      - UID=1000
+      - GID=1000
+      - GIDLIST=100
+    volumes:
+      - ./config:/config
+      - /mnt:/mnt
+    ports:
+      - 8096:8096
+      - 8920:8920

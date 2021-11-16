@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     environment:
       - PUID=1000
-      - PGID=1000
+      - PGID=27
       - TZ=Europe/Zurich
       - AUTO_UPDATE=true
     volumes:
@@ -21,7 +21,7 @@ services:
     restart: unless-stopped
     environment:
       - PUID=1000
-      - PGID=1000
+      - PGID=27
       - TZ=Europe/London
     volumes:
       - ./radarr_config:/config
@@ -34,10 +34,21 @@ services:
     restart: unless-stopped
     environment:
       - PUID=1000
-      - PGID=1000
+      - PGID=27
       - TZ=Europe/London
     volumes:
       - ./sonarr_config:/config
       - /mnt:/mnt
     ports:
       - 8989:8989
+  chinesesubfinder:
+    image: allanpk716/chinesesubfinder:latest
+    container_name: chinesesubfinder
+    restart: unless-stopped
+    volumes:
+      - ./chinesesubfinder_config:/config
+      - /mnt:/mnt
+    environment:
+      - PUID=1000
+      - PGID=27
+      - TZ=Europe/London
