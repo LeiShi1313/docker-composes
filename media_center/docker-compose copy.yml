@@ -1,0 +1,86 @@
+---
+version: "3"
+services:
+  prowlarr:
+    image: ghcr.io/linuxserver/prowlarr:develop
+    container_name: prowlarr
+    restart: unless-stopped
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=Asia/Shanghai
+    volumes:
+      - /volume2/docker/mediacenter/prowlarr:/config
+      - /volume2/1T:/volume2/1T
+      - /volumeSATA1/satashare1-1:/volumeSATA1/satashare1-1
+      - /volumeSATA2/satashare2-1:/volumeSATA2/satashare2-1
+    ports:
+      - 9696:9696
+
+  radarr:
+    image: ghcr.io/linuxserver/radarr
+    container_name: radarr
+    restart: unless-stopped
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=Asia/Shanghai
+    volumes:
+      - /volume2/docker/mediacenter/radarr:/config
+      - /volume2/1T:/volume2/1T
+      - /volumeSATA1/satashare1-1:/volumeSATA1/satashare1-1
+      - /volumeSATA2/satashare2-1:/volumeSATA2/satashare2-1
+    ports:
+      - 7878:7878
+
+  sonarr:
+    image: ghcr.io/linuxserver/sonarr
+    container_name: sonarr
+    restart: unless-stopped
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=Asia/Shanghai
+    volumes:
+      - /volume2/docker/mediacenter/sonarr:/config
+      - /volume2/1T:/volume2/1T
+      - /volumeSATA1/satashare1-1:/volumeSATA1/satashare1-1
+      - /volumeSATA2/satashare2-1:/volumeSATA2/satashare2-1
+    ports:
+      - 8989:8989
+
+  overseerr:
+    image: sctx/overseerr:latest
+    container_name: overseerr
+    restart: unless-stopped
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=Asia/Shanghai
+    ports:
+      - 5055:5055
+    volumes:
+      - /volume2/docker/mediacenter/overseerr:/app/config
+      - /volume2/1T:/volume2/1T
+      - /volumeSATA1/satashare1-1:/volumeSATA1/satashare1-1
+      - /volumeSATA2/satashare2-1:/volumeSATA2/satashare2-1
+
+  chinesesubfinder:
+    image: allanpk716/chinesesubfinder:latest
+    container_name: chinesesubfinder
+    restart: unless-stopped
+    volumes:
+      - /volume2/docker/mediacenter/chinesesubfinder:/config
+      - /volume2/1T:/volume2/1T
+      - /volumeSATA1/satashare1-1:/volumeSATA1/satashare1-1
+      - /volumeSATA2/satashare2-1:/volumeSATA2/satashare2-1
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=Asia/Shanghai
+
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    restart: unless-stopped
+    ports:
+      - 8191:8191

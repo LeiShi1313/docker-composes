@@ -11,10 +11,22 @@ services:
       - TZ=Europe/Zurich
       - AUTO_UPDATE=true
     volumes:
-      - ./jackett_config:/config
+      - ./jackett:/config
       - /mnt:/mnt
     ports:
       - 9117:9117
+  prowlarr:
+    image: ghcr.io/linuxserver/prowlarr:develop
+    container_name: prowlarr
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=27
+      - TZ=Europe/Zurich
+    volumes:
+      - ./prowlarr:/config
+    ports:
+      - 9696:9696
   radarr:
     image: lscr.io/linuxserver/radarr
     container_name: radarr
@@ -22,9 +34,9 @@ services:
     environment:
       - PUID=1000
       - PGID=27
-      - TZ=Europe/London
+      - TZ=Europe/Zurich
     volumes:
-      - ./radarr_config:/config
+      - ./radarr:/config
       - /mnt:/mnt
     ports:
       - 7878:7878
@@ -35,20 +47,38 @@ services:
     environment:
       - PUID=1000
       - PGID=27
-      - TZ=Europe/London
+      - TZ=Europe/Zurich
     volumes:
-      - ./sonarr_config:/config
+      - ./sonarr:/config
       - /mnt:/mnt
     ports:
       - 8989:8989
+  overseerr:
+    image: sctx/overseerr:latest
+    container_name: overseerr
+    restart: unless-stopped
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=Europe/Zurich
+    ports:
+      - 5055:5055
+    volumes:
+      - ./overseerr:/app/config
+
   chinesesubfinder:
     image: allanpk716/chinesesubfinder:latest
     container_name: chinesesubfinder
     restart: unless-stopped
     volumes:
-      - ./chinesesubfinder_config:/config
+      - ./chinesesubfinder:/config
       - /mnt:/mnt
     environment:
       - PUID=1000
       - PGID=27
-      - TZ=Europe/London
+      - TZ=Europe/Zurich
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    restart: unless-stopped
+    ports:
+      - 8191:8191
